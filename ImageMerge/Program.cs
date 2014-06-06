@@ -62,7 +62,7 @@ namespace ImageMerge
             float opacitiy = (float)1 / count;
             Console.WriteLine("Processing at {0} opactiy", opacitiy);
 
-            foreach (string file in Directory.GetFiles(imagefolder, "_desktop.jpg"))
+            foreach (string file in Directory.GetFiles(imagefolder, "*_desktop.jpg"))
             {
                 Console.Write(".");
                 System.Drawing.Bitmap image = new Bitmap(file);
