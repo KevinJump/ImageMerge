@@ -45,6 +45,13 @@ namespace ImageMerge
                     height = image.Height;
             }
 
+
+            if ( count == 0 )
+            {
+                Console.WriteLine("Nothing found");
+                return;
+
+            }
             Console.WriteLine("Max Image: {0} x {1}", width, height);
 
             Bitmap final = new Bitmap(width, height);
@@ -52,15 +59,17 @@ namespace ImageMerge
             g.Clear(Color.White);
 
             Console.WriteLine("Processing {0}", count);
+            float opacitiy = (float)1 / count;
+            Console.WriteLine("Processing at {0} opactiy", opacitiy);
 
-            foreach (string file in Directory.GetFiles(imagefolder, "*_desktop.jpg"))
+            foreach (string file in Directory.GetFiles(imagefolder, "_desktop.jpg"))
             {
                 Console.Write(".");
                 System.Drawing.Bitmap image = new Bitmap(file);
 
                 image.MakeTransparent(Color.White);
                 
-                Bitmap newImage = new Bitmap(SetImageOpacity((Image)image, 0.003F));
+                Bitmap newImage = new Bitmap(SetImageOpacity((Image)image, opacitiy));
 
                 g.DrawImage(newImage, new Point(0, 0));
             }
