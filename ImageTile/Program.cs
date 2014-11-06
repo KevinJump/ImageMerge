@@ -36,7 +36,7 @@ namespace ImageTile
             int height = 0;
             int count = 0;
 
-            foreach (string file in Directory.GetFiles(imagefolder, "*_desktop.jpg"))
+            foreach (string file in Directory.GetFiles(imagefolder, "*.png"))
             {
                 Console.Write(".");
 
@@ -49,13 +49,15 @@ namespace ImageTile
 
                 if (image.Height > height)
                     height = image.Height;
+
+                image.Dispose();
             }
 
-            int imageWidth = width * acrossCount;
+            int imageWidth = (width/4) * acrossCount;
 
                 
             int rows = (int)Math.Ceiling( (double)(count / acrossCount));
-            int depth = height * (rows +1);
+            int depth = (height/4) * (rows +1);
 
             Console.WriteLine("Image Will be {0} x {1}", imageWidth, depth);
 
@@ -66,18 +68,20 @@ namespace ImageTile
             Console.WriteLine("Processing {0}", count);
             int processed = 0; 
 
-            foreach (string file in Directory.GetFiles(imagefolder, "*_desktop.jpg"))
+            foreach (string file in Directory.GetFiles(imagefolder, "*.png"))
             {
                 Console.Write(".");
                 System.Drawing.Bitmap image = new Bitmap(file);
 
-                int x = (processed % acrossCount) * width ;
-                int y = (int)Math.Ceiling( (double)(processed / acrossCount)) * height;
+                int x = (processed % acrossCount) * (width/4) ;
+                int y = (int)Math.Ceiling( (double)(processed / acrossCount)) * (height/4);
 
                 Console.WriteLine("{0} on Col:{1} Row:{2} At {3}, {4}", processed, (processed % acrossCount),(int)Math.Ceiling( (double)(processed / acrossCount)),  x, y);
 
-                g.DrawImage(image, new Point(x,y));
-                
+                // g.DrawImage(image, new Point(x,y));
+                g.DrawImage(image, new Rectangle(x, y, image.Width / 4, image.Height / 4));
+
+                image.Dispose();
                 processed++;
             }
 

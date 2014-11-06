@@ -30,7 +30,7 @@ namespace ImageMerge
             int height = 0;
             int count = 0 ; 
 
-            foreach(string file in Directory.GetFiles(imagefolder, "*_desktop.jpg" )) 
+            foreach(string file in Directory.GetFiles(imagefolder, "*.png" )) 
             {
                 Console.Write(".");
 
@@ -43,6 +43,8 @@ namespace ImageMerge
 
                 if (image.Height > height)
                     height = image.Height;
+
+                image.Dispose();
             }
 
 
@@ -62,7 +64,7 @@ namespace ImageMerge
             float opacitiy = (float)1 / count;
             Console.WriteLine("Processing at {0} opactiy", opacitiy);
 
-            foreach (string file in Directory.GetFiles(imagefolder, "*_desktop.jpg"))
+            foreach (string file in Directory.GetFiles(imagefolder, "*.png"))
             {
                 Console.Write(".");
                 System.Drawing.Bitmap image = new Bitmap(file);
@@ -70,8 +72,9 @@ namespace ImageMerge
                 image.MakeTransparent(Color.White);
                 
                 Bitmap newImage = new Bitmap(SetImageOpacity((Image)image, opacitiy));
-
                 g.DrawImage(newImage, new Point(0, 0));
+                newImage.Dispose();
+                image.Dispose();
             }
 
             Console.WriteLine(" Done.");
